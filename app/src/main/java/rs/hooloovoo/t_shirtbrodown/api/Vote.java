@@ -3,7 +3,7 @@ package rs.hooloovoo.t_shirtbrodown.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+public class Vote {
     @SerializedName("color")
     @Expose
     private String color;

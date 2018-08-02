@@ -1,15 +1,26 @@
 package rs.hooloovoo.t_shirtbrodown;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import rs.hooloovoo.t_shirtbrodown.api.ApiService;
+import rs.hooloovoo.t_shirtbrodown.api.ApiUtils;
+import rs.hooloovoo.t_shirtbrodown.api.Vote;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     Button btnBlue;
     Button btnYellow;
+    ApiService apiService;
     String authorization = "x-tshirtbrodown-auth-token1:a2408868-3f0a-45b2-ad4b-25652899a9b2";
 
     @Override
@@ -60,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "go team blue :)");
+                voteForColor("blue");
             }
         });
 
@@ -68,9 +80,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "we all live in a yellow submarine :)");
+                voteForColor("yellow");
+            }
+        });
+
+        apiService = ApiUtils.getAPIService();
+    }
+
+    public void voteForColor(String color) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        apiService.voteForColor(color).enqueue(new Callback<Vote>() {
+            @Override
+            public void onResponse(@NonNull Call<Vote> call, @NonNull Response<Vote> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: " + Objects.requireNonNull(response.body()).toString());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Vote> call, @NonNull Throwable throwable) {
+                Log.d(TAG, "onFailure: " + throwable);
             }
         });
     }
-
 
 }

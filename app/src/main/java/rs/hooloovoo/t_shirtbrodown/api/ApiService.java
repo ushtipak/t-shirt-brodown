@@ -5,8 +5,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface APIService {
+public interface ApiService {
     @POST("/vote")
     @FormUrlEncoded
-    Call<Post> voteForColor(@Field("color") String title);
+    Call<Vote> voteForColor(@Field("color") String title);
 }
