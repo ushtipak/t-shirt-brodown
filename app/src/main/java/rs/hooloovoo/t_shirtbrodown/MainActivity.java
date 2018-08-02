@@ -3,6 +3,7 @@ package rs.hooloovoo.t_shirtbrodown;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        apiService.voteForColor(color).enqueue(new Callback<Vote>() {
+        String authHeader = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
+        apiService.voteForColor(color, authHeader).enqueue(new Callback<Vote>() {
             @Override
             public void onResponse(@NonNull Call<Vote> call, @NonNull Response<Vote> response) {
                 if (response.isSuccessful()) {
