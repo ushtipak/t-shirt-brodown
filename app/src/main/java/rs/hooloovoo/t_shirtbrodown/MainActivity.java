@@ -10,6 +10,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     Button btnBlue;
     Button btnYellow;
+    String authorization = "x-tshirtbrodown-auth-token1:a2408868-3f0a-45b2-ad4b-25652899a9b2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
