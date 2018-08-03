@@ -1,6 +1,7 @@
 package rs.hooloovoo.t_shirtbrodown;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     Button btnBlue;
     Button btnYellow;
+    Button btnCountdown;
     ApiService apiService;
     String authorization = "x-tshirtbrodown-auth-token1:a2408868-3f0a-45b2-ad4b-25652899a9b2";
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnCountdown = findViewById(R.id.btnCountdown);
         apiService = ApiUtils.getAPIService();
     }
 
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
+        pauseVoting();
         String authHeader = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
         apiService.voteForColor(color, authHeader).enqueue(new Callback<Vote>() {
             @Override
@@ -107,6 +111,35 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: " + throwable);
             }
         });
+        resumeVoting();
+    }
+
+    private void pauseVoting() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        btnBlue.setEnabled(false);
+        btnYellow.setEnabled(false);
+    }
+
+    private void resumeVoting() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        btnCountdown.setVisibility(View.VISIBLE);
+        new CountDownTimer(10000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                btnCountdown.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            public void onFinish() {
+                btnCountdown.setVisibility(View.INVISIBLE);
+                btnBlue.setEnabled(true);
+                btnYellow.setEnabled(true);
+            }
+        }.start();
     }
 
 }
