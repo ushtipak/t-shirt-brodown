@@ -37,6 +37,8 @@
         android:alpha="0.7"
         android:enabled="false"
         android:visibility="invisible"
+        android:textSize="@android:dimen/thumbnail_height"
+        android:textColor="@color/matoreeChill"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

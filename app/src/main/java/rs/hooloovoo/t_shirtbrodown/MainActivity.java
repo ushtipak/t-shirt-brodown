@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        pauseVoting();
+        pauseVote();
         String authHeader = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
         apiService.voteForColor(color, authHeader).enqueue(new Callback<Vote>() {
             @Override
@@ -111,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: " + throwable);
             }
         });
-        resumeVoting();
+        resumeVote();
     }
 
-    private void pauseVoting() {
+    private void pauseVote() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         btnYellow.setEnabled(false);
     }
 
-    private void resumeVoting() {
+    private void resumeVote() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
