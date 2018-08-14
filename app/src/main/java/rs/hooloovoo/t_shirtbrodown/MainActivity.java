@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnCountdown;
     ApiService apiService;
     String authorization = "x-tshirtbrodown-auth-token1:a2408868-3f0a-45b2-ad4b-25652899a9b2";
+    Vote vote = new Vote();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "go team blue :)");
-                voteForColor("blue");
+                vote.setColor("blue");
+                voteForColor(vote);
             }
         });
 
@@ -83,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "we all live in a yellow submarine :)");
-                voteForColor("yellow");
+                vote.setColor("yellow");
+                voteForColor(vote);
             }
         });
 
@@ -91,14 +94,14 @@ public class MainActivity extends AppCompatActivity {
         apiService = ApiUtils.getAPIService();
     }
 
-    public void voteForColor(String color) {
+    public void voteForColor(Vote vote) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
         pauseVote();
         String authHeader = "Basic " + Base64.encodeToString(authorization.getBytes(), Base64.NO_WRAP);
-        apiService.voteForColor(color, authHeader).enqueue(new Callback<Vote>() {
+        apiService.voteForColor(vote, authHeader).enqueue(new Callback<Vote>() {
             @Override
             public void onResponse(@NonNull Call<Vote> call, @NonNull Response<Vote> response) {
                 if (response.isSuccessful()) {
